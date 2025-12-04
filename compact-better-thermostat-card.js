@@ -2,13 +2,13 @@
  * Compact Better Thermostat Card
  * A compact, wide thermostat control card with integrated temperature/humidity graph
  *
- * @version 1.4.0
+ * @version 1.6.0
  * @author Claude
  * @license MIT
  * @dependency mini-graph-card (https://github.com/kalkih/mini-graph-card)
  */
 
-const CARD_VERSION = '1.4.0';
+const CARD_VERSION = '1.6.0';
 
 console.info(
   `%c COMPACT-BETTER-THERMOSTAT-CARD %c v${CARD_VERSION} `,
