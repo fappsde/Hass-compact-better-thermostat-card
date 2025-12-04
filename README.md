@@ -7,6 +7,8 @@
 A compact, wide thermostat control card for Home Assistant with an integrated temperature/humidity graph in the background. Designed to work seamlessly with [Better Thermostat](https://github.com/KartoffelToby/better_thermostat) but compatible with any climate entity.
 
 <!-- TODO: Add preview image at docs/preview.png -->
+<img width="63" height="59" alt="image" src="https://github.com/user-attachments/assets/a5818802-4696-4220-893a-3eef676f720f" />
+
 
 ## Features
 
