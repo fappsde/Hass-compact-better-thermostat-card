@@ -472,7 +472,7 @@ const CARD_STYLES = `
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 1;
     pointer-events: none;
   }
 
@@ -525,7 +525,7 @@ const CARD_STYLES = `
 
   /* Graph Container with Info Bar */
   .graph-container.with-info-bar {
-    bottom: 36px;
+    bottom: 24px;
   }
 
   .graph-container mini-graph-card {
@@ -765,16 +765,16 @@ const CARD_STYLES = `
     display: flex;
     justify-content: center;
     gap: 16px;
-    padding: 8px;
+    padding: 4px 8px;
     font-size: 0.75rem;
     color: var(--secondary-text-color);
-    border-top: 1px solid var(--divider-color);
+    border-top: 1px solid rgba(var(--rgb-divider-color, 127, 127, 127), 0.3);
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 5;
-    background: var(--card-background-color);
+    z-index: 1;
+    background: transparent;
     pointer-events: none;
   }
 
@@ -1096,13 +1096,24 @@ class CompactBetterThermostatCard extends HTMLElement {
 
     // Window indicator
     if (this._config.show_window !== false) {
+      // Check various possible attribute names for window status
+      const windowOpen = attrs.window_open === true ||
+                         attrs.window === true ||
+                         attrs.window_open === 'open' ||
+                         attrs.window === 'open';
+
+      const windowDetectionEnabled = attrs.window_detection === 'on' ||
+                                     attrs.window_detection === true ||
+                                     attrs.is_window_detection_on === true ||
+                                     attrs.window_auto_enabled === true ||
+                                     attrs.window_auto === true;
+
       // Show warning icon if window is open
-      if (attrs.window_open === true || attrs.window === true) {
+      if (windowOpen) {
         statusBar.appendChild(this._createStatusIcon('mdi:window-open-variant', 'warning'));
       }
       // Show grey icon if window detection is enabled but window is closed
-      else if (attrs.window_detection === 'on' || attrs.window_detection === true ||
-               attrs.is_window_detection_on === true) {
+      else if (windowDetectionEnabled) {
         statusBar.appendChild(this._createStatusIcon('mdi:window-closed-variant', 'enabled'));
       }
     }
@@ -1116,7 +1127,7 @@ class CompactBetterThermostatCard extends HTMLElement {
     // Heating indicator
     if (this._config.show_heating !== false &&
         (attrs.hvac_action === 'heating' || attrs.call_for_heat === true)) {
-      statusBar.appendChild(this._createStatusIcon('mdi:waves', 'heating'));
+      statusBar.appendChild(this._createStatusIcon('mdi:heat-wave', 'heating'));
     }
   }
 
