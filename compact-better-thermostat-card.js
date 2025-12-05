@@ -337,6 +337,7 @@ class CompactBetterThermostatCardEditor extends HTMLElement {
       return;
     }
 
+    // const newConfig = ev.detail.value;
     const newValue = ev.detail.value;
 
     // Merge new values with existing config to preserve all fields
