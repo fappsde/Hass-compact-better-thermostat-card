@@ -1,0 +1,49 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  validate-hacs:
+    name: HACS Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: HACS Validation
+        uses: hacs/action@main
+        with:
+          category: plugin
+
+  validate-hassfest:
+    name: Hassfest Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check hacs.json
+        run: |
+          if [ ! -f "hacs.json" ]; then
+            echo "Error: hacs.json not found"
+            exit 1
+          fi
+          echo "hacs.json found"
+          cat hacs.json
+
+      - name: Check main JS file
+        run: |
+          if [ ! -f "compact-better-thermostat-card.js" ]; then
+            echo "Error: compact-better-thermostat-card.js not found"
+            exit 1
+          fi
+          echo "Main JS file found"
+          head -20 compact-better-thermostat-card.js
