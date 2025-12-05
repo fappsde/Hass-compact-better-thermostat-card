@@ -2,13 +2,13 @@
  * Compact Better Thermostat Card
  * A compact, wide thermostat control card with integrated temperature/humidity graph
  *
- * @version 1.4.0
+ * @version 1.6.0
  * @author Claude
  * @license MIT
  * @dependency mini-graph-card (https://github.com/kalkih/mini-graph-card)
  */
 
-const CARD_VERSION = '1.4.0';
+const CARD_VERSION = '1.6.0';
 
 console.info(
   `%c COMPACT-BETTER-THERMOSTAT-CARD %c v${CARD_VERSION} `,
@@ -337,7 +337,24 @@ class CompactBetterThermostatCardEditor extends HTMLElement {
       return;
     }
 
-    const newConfig = ev.detail.value;
+    // const newConfig = ev.detail.value;
+    const newValue = ev.detail.value;
+
+    // Merge new values with existing config to preserve all fields
+    // This is critical because ha-form only returns fields in the schema,
+    // so we'd lose any config values not explicitly in the form
+    const newConfig = {
+      ...this._config,
+      ...newValue,
+    };
+
+    // Properly merge nested graph object if both exist
+    if (this._config.graph || newValue.graph) {
+      newConfig.graph = {
+        ...(this._config.graph || {}),
+        ...(newValue.graph || {}),
+      };
+    }
 
     // Only dispatch if config actually changed
     if (JSON.stringify(newConfig) === JSON.stringify(this._config)) {
